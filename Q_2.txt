@@ -1,0 +1,34 @@
+Q.2. Write a python program to implement Naive Bayes.
+
+Ans ->
+
+from sklearn import datasets 
+from sklearn import metrics 
+from sklearn.naive_bayes import GaussianNB 
+ 
+dataset = datasets.load_iris()
+#Creating our Naive Bayes Model
+model = GaussianNB()
+from sklearn import datasets 
+from sklearn import metrics 
+from sklearn.naive_bayes import GaussianNB 
+ 
+dataset = datasets.load_iris()
+#Creating our Naive Bayes Model
+model = GaussianNB()
+Downloaded by Aditya Nivangune (deshmukhaditya897@gmail.com)
+lOMoARcPSD|34699036
+model.fit(dataset.data, dataset.target)
+#Making Predictions
+expected = dataset.target
+predicted = model.predict(dataset.data)
+#Getting Accuracy and Statistics
+print(metrics.classification_report(expected, predicted))
+print(metrics.confusion_matrix(expected, predicted))
+model.fit(dataset.data, dataset.target)
+#Making Predictions
+expected = dataset.target
+predicted = model.predict(dataset.data)
+#Getting Accuracy and Statistics
+print(metrics.classification_report(expected, predicted))
+print(metrics.confusion_matrix(expected, predicted))

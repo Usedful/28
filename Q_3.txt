@@ -1,0 +1,102 @@
+Q.3 Create your own blog using Django.
+
+Ans ->
+
+1) Install Django:
+pip install django
+
+
+2) Create a new Django project:
+django-admin startproject myblog
+cd myblog
+
+
+3) Create a new Django app:
+python manage.py startapp blog
+
+
+4) Define models in blog/models.py:
+from django.db import models
+from django.utils import timezone
+
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    pub_date = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return self.title
+
+
+5) Run migrations and create the database tables:
+python manage.py makemigrations
+python manage.py migrate
+
+
+6) Create a Django admin for the Post model in blog/admin.py:
+from django.contrib import admin
+from .models import Post
+
+admin.site.register(Post)
+
+
+7) Update blog/views.py to define views:
+from django.shortcuts import render
+from .models import Post
+
+def post_list(request):
+    posts = Post.objects.order_by('-pub_date')
+    return render(request, 'blog/post_list.html', {'posts': posts})
+
+
+8) Create templates:
+	Create blog/templates/blog/post_list.html:
+{% extends 'blog/base.html' %}
+
+{% block content %}
+  {% for post in posts %}
+    <div>
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.content }}</p>
+      <p>Published on: {{ post.pub_date }}</p>
+    </div>
+  {% endfor %}
+{% endblock %}
+
+-Create blog/templates/blog/base.html:
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Blog</title>
+</head>
+<body>
+  <h1>Welcome to My Blog</h1>
+  {% block content %}{% endblock %}
+</body>
+</html>
+
+
+9) Configure URLs in blog/urls.py:
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.post_list, name='post_list'),
+]
+
+
+10) Include the app URLs in the project's urls.py:
+from django.contrib import admin
+from django.urls import include, path
+
+urlpatterns = [
+    path('admin/', admin.site.urls),
+    path('blog/', include('blog.urls')),
+]
+
+
+11) Run the development server:
+python manage.py runserver
+
+
+12) Visit http://127.0.0.1:8000/blog/ in your browser to see your blog.
